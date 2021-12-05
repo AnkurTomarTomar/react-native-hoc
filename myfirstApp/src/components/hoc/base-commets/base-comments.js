@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { View, Text } from 'react-native';
 import CommentsDetailsCard from '../cards/Cards';
 
@@ -7,6 +7,14 @@ export default function baseComments(WrappedCompnent) {
     return function showMainCardDetails(props) {
 
         const CARD_DETAILS_DUMMY_ID = 'CARD_DETAILS_DUMMY_ID';
+
+        const largestComment = useMemo(()=>{
+          return largestCommentFound();
+        }, [props.data])
+
+        const totalNoOfComments = useMemo(() =>{
+          return calculateNoOfComments();
+        }, [props.data]);
 
 
         function calculateNoOfComments() {
@@ -32,8 +40,8 @@ export default function baseComments(WrappedCompnent) {
                 <CommentsDetailsCard 
                     id={CARD_DETAILS_DUMMY_ID}
                     backgroundColor='red'
-                    commentsLength={calculateNoOfComments()}
-                    largestCommentsText={largestCommentFound()} />
+                    commentsLength={totalNoOfComments}
+                    largestCommentsText={ largestComment } />
             </View>
         }
 
